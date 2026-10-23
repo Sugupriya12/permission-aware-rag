@@ -5,7 +5,6 @@ from evaluate import EVALUATION_CASES
 
 thresholds = [0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55]
 
-# Collect the highest-ranked document's score for each question.
 samples = []
 
 for case in EVALUATION_CASES:
@@ -14,16 +13,38 @@ for case in EVALUATION_CASES:
         tenant_id=case["tenant_id"],
         user_role=case["role"],
         top_k=1,
+        min_score=0.0,
     )
 
-    score = results[0]["score"] if results else None
-    answerable = bool(case["expected_docs"])
+    top_doc = results[0] if results else None
 
     samples.append({
         "query": case["query"],
-        "answerable": answerable,
-        "score": score,
+        "tenant_id": case["tenant_id"],
+        "role": case["role"],
+        "answerable": bool(case["expected_docs"]),
+        "score": top_doc["score"] if top_doc else None,
+        "doc_id": top_doc["id"] if top_doc else None,
+        "doc_title": top_doc["title"] if top_doc else None,
     })
+
+
+print("\nRETRIEVAL DIAGNOSTICS")
+print("-" * 90)
+
+for sample in samples:
+    if not sample["answerable"]:
+        print(f"\nQuestion: {sample['query']}")
+        print(f"Tenant / role: {sample['tenant_id']} / {sample['role']}")
+
+        if sample["score"] is None:
+            print("Top candidate: None")
+        else:
+            print(
+                f"Top candidate: {sample['doc_id']} - "
+                f"{sample['doc_title']}"
+            )
+            print(f"Similarity score: {sample['score']:.4f}")
 
 
 print("\nTHRESHOLD COMPARISON")
@@ -56,8 +77,4 @@ for threshold in thresholds:
         f"{false_rejections:>16}"
     )
 
-print("\nInterpretation:")
-print("- Accepted answerable = questions whose top score passes the threshold.")
-print("- Rejected unanswerable = questions whose top score falls below it.")
-print("- False rejections = answerable questions incorrectly filtered out.")
-print("These results apply only to this small evaluation dataset.")
+print("\nNote: Results apply only to this small evaluation dataset.")

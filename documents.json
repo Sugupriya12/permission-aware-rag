@@ -1,10 +1,12 @@
-
 [
   {
     "id": "doc-001",
     "tenant_id": "org-a",
     "department": "engineering",
-    "allowed_roles": ["engineer", "admin"],
+    "allowed_roles": [
+      "engineer",
+      "admin"
+    ],
     "title": "Deployment Procedure",
     "content": "Production deployments require code review, automated tests, approval from the engineering lead, and a rollback plan."
   },
@@ -12,7 +14,10 @@
     "id": "doc-002",
     "tenant_id": "org-a",
     "department": "hr",
-    "allowed_roles": ["hr", "admin"],
+    "allowed_roles": [
+      "hr",
+      "admin"
+    ],
     "title": "Leave Policy",
     "content": "Employees receive 20 days of annual leave. Leave requests must be submitted through the HR portal and approved by their manager."
   },
@@ -20,7 +25,10 @@
     "id": "doc-003",
     "tenant_id": "org-b",
     "department": "engineering",
-    "allowed_roles": ["engineer", "admin"],
+    "allowed_roles": [
+      "engineer",
+      "admin"
+    ],
     "title": "Release Procedure",
     "content": "Software releases require automated regression tests, release notes, a designated release owner, and monitoring after deployment."
   },
@@ -28,7 +36,10 @@
     "id": "doc-004",
     "tenant_id": "org-a",
     "department": "finance",
-    "allowed_roles": ["finance", "admin"],
+    "allowed_roles": [
+      "finance",
+      "admin"
+    ],
     "title": "Expense Reimbursement",
     "content": "Employees must submit expense receipts within 30 days. Finance reviews claims and reimburses approved expenses through payroll."
   },
@@ -36,8 +47,22 @@
     "id": "doc-005",
     "tenant_id": "org-b",
     "department": "hr",
-    "allowed_roles": ["hr", "admin"],
+    "allowed_roles": [
+      "hr",
+      "admin"
+    ],
     "title": "Remote Work Policy",
     "content": "Remote work requires manager approval. Employees must use company-managed devices and follow corporate data protection policies."
+  },
+
+  {
+    "id": "doc-007",
+    "tenant_id": "org-a",
+    "department": "engineering",
+    "allowed_roles": [
+      "engineer"
+    ],
+    "title": "Production Security Review",
+    "content": "The engineering team must complete a security review before every production release."
   }
 ]

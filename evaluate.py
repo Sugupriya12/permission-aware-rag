@@ -217,7 +217,6 @@ def evaluate_retrieval(k_values=(1, 3)):
 
     permission_violations = []
     correct_abstentions = 0
-    false_acceptances = 0
     false_rejections = 0
     unanswerable_with_candidates = 0
 
@@ -266,7 +265,6 @@ def evaluate_retrieval(k_values=(1, 3)):
 
         if results:
             unanswerable_with_candidates += 1
-            false_acceptances += 1
         else:
             correct_abstentions += 1
 
@@ -291,7 +289,7 @@ def evaluate_retrieval(k_values=(1, 3)):
 
     for k in k_values:
         recall = hits[k] / total_relevant if total_relevant else 0
-        print(f"Recall@{k}: {recall:.2%} ({hits[k]}/{total_relevant})")
+        print(f"Micro Recall@{k}: {recall:.2%} ({hits[k]}/{total_relevant})")
 
     print(f"Total questions: {len(EVALUATION_CASES)}")
     print(f"Answerable questions: {len(answerable_cases)}")
@@ -300,8 +298,14 @@ def evaluate_retrieval(k_values=(1, 3)):
         "Unanswerable questions returning candidates: "
         f"{unanswerable_with_candidates}/{len(unanswerable_cases)}"
     )
+    false_positive_rate = (
+         unanswerable_with_candidates / len(unanswerable_cases)
+        if unanswerable_cases else 0.0
+    )
+
+    print(f"Unanswerable retrieval rate: {false_positive_rate:.1%}")
     print(f"Correct abstentions: {correct_abstentions}")
-    print(f"False acceptances: {false_acceptances}")
+
     print(f"False rejections: {false_rejections}")
     print(f"Permission violations: {len(permission_violations)}")
 
